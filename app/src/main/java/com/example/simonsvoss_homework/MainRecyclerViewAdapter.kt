@@ -5,10 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.simonsvoss_homework.models.Data
-import com.example.simonsvoss_homework.models.Lock
 
-class MainRecyclerViewAdapter(private val data: Data) :
+class MainRecyclerViewAdapter(private val dataForAdapterArray: ArrayList<DataForAdapter>) :
     RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -27,20 +25,12 @@ class MainRecyclerViewAdapter(private val data: Data) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.lockTextView.text = data.locks[position].name
+        holder.lockTextView.text = dataForAdapterArray[position].lockName
         holder.buildingTextView.text =
-            getBuildingShortcutFloorRoomNumberString(data.locks[position])
-    }
-
-    private fun getBuildingShortcutFloorRoomNumberString(lock: Lock): String {
-        val buildingShortcut = data.buildings.first { lock.buildingId == it.id }.shortCut
-        val floor = lock.floor
-        val roomNumber = lock.roomNumber
-
-        return "$buildingShortcut-$floor-$roomNumber"
+            dataForAdapterArray[position].buildingShortcutFloorRoomNumberString
     }
 
     override fun getItemCount(): Int {
-        return data.locks.size
+        return dataForAdapterArray.size
     }
 }
